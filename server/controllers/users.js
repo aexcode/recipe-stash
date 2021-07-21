@@ -108,16 +108,19 @@ router.post('/isTokenValid', async (req, res) => {
     if (!user) return res.json({ success: false })
 
     return res.json(true)
-  } catch (err) {
-    res.status(500).json({ success: false, msg: err.message })
+  } catch (error) {
+    res.status(500).json({ success: false, msg: error.message })
   }
 })
 
 // Return logged in user's ID
 router.get('/', auth, async (req, res) => {
-  const user = await User.findById(req.userId)
-
-  res.status(200).json({ success: true, id: user._id })
+  try {
+    const user = await User.findById(req.userId)
+    res.status(200).json({ success: true, id: user._id })
+  } catch (error) {
+    res.status(400).json(`Something went wrong. Please try again.`)
+  }
 })
 
 // Exports

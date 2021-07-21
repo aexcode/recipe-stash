@@ -1,6 +1,7 @@
 // Dependencies
 const express = require('express')
 const router = express.Router()
+const Axios = require('axios')
 const auth = require('../middleware/auth')
 const Recipe = require('../models/recipe')
 const User = require('../models/user')
@@ -20,8 +21,14 @@ router.get('/', auth, async (req, res) => {
 // New: Add a new recipe
 router.post('/', auth, async (req, res) => {
   try {
+    const url = req.body.url
+
+    const BASE_URL = `http://api.linkpreview.net/?key=${process.env.LINK_PREVIEW_API_KEY}`
+    const COMPLETE_URL = `${BASE_URL}&q=${url}`
+    const { data } = await Axios(COMPLETE_URL)
+
     // Create new recipe
-    const newRecipe = await Recipe.create({ userId: req.userId, ...req.body })
+    const newRecipe = await Recipe.create({ userId: req.userId, ...data })
 
     // Add new recipe ID to the user's recipe array
     const user = await User.findByIdAndUpdate(
