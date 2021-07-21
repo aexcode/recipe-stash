@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
         })
 
         // If the token is valid, get the logged in user
-        if (tokenRes) {
+        if (tokenRes.data.success) {
           const userRes = await Axios.get('/api/users/', {
             headers: { 'auth-token': token },
           })
@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }) => {
     })
 
     // if registration is successful, login the user
-    if (registerRes) {
+    if (registerRes.data.success) {
       login(email, password)
     } else {
       setLoading(false)
@@ -86,7 +86,7 @@ export const AuthProvider = ({ children }) => {
     })
 
     // if logging in is successful
-    if (loginRes) {
+    if (loginRes.data.success) {
       // setCurrentUser
       setCurrentUser({
         token: loginRes.data.token,

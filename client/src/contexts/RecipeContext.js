@@ -30,7 +30,7 @@ export const RecipeProvider = ({ children }) => {
         console.log(error.response.data.msg)
       })
 
-      if (recipeRes) {
+      if (recipeRes.data.success) {
         getRecipes()
       }
     }
@@ -48,7 +48,7 @@ export const RecipeProvider = ({ children }) => {
       }).catch((error) => {
         console.log(error.response.data.msg)
       })
-      if (recipeRes) setRecipes(recipeRes.data.recipes)
+      if (recipeRes.data.success) setRecipes(recipeRes.data.recipes)
     }
     setLoading(false)
   }
