@@ -38,7 +38,6 @@ export const AuthProvider = ({ children }) => {
             headers: { 'auth-token': token },
           })
 
-          console.log(userRes)
           // set the current user
           if (userRes) {
             setCurrentUser({
@@ -91,7 +90,6 @@ export const AuthProvider = ({ children }) => {
       setCurrentUser({
         token: loginRes.data.token,
         isAuth: true,
-        ...loginRes.data.user,
       })
 
       // set auth-token header

@@ -48,7 +48,7 @@ router.post('/register', async (req, res) => {
 
     // Save user to database
     const savedUser = await newUser.save()
-    res.json({ success: true, savedUser })
+    res.json({ success: true, user: savedUser })
   } catch (error) {
     res.status(500).json({ success: false, msg: error.message })
   }
@@ -86,10 +86,7 @@ router.post('/login', async (req, res) => {
 
     // Sign jsonwebtoken
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
-    res.json({
-      token,
-      user,
-    })
+    res.json({ success: true, token })
   } catch (error) {
     res.status(400).json({ success: false, msg: error.message })
   }
@@ -107,8 +104,9 @@ router.post('/isTokenValid', async (req, res) => {
     const user = await User.findById(verified.id)
     if (!user) return res.json({ success: false })
 
-    return res.json(true)
+    return res.json({ success: true })
   } catch (error) {
+    console.log(error)
     res.status(500).json({ success: false, msg: error.message })
   }
 })
