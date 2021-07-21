@@ -3,12 +3,14 @@ const express = require('express')
 const mongoose = require('mongoose')
 const path = require('path')
 const app = express()
+const cors = require('cors')
 require('dotenv').config()
 
 // Database configuration
 require('./config/database')
 
 // Middleware
+app.use(cors())
 app.use(express.json())
 
 // Routes

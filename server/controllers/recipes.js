@@ -9,7 +9,7 @@ const User = require('../models/user')
 router.get('/', auth, async (req, res) => {
   try {
     const user = await User.findById(req.userId).populate('recipes')
-    res.send({ success: true, data: user.recipes })
+    res.send({ success: true, recipes: user.recipes })
   } catch (error) {
     res
       .status(400)
