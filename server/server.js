@@ -11,6 +11,9 @@ require('./config/database')
 // Middleware
 app.use(express.json())
 
+// Routes
+app.use('/api/users', require('./controllers/users'))
+
 // App listener
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => console.log(`server is listening on port: ${PORT}`))
