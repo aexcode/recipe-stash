@@ -9,9 +9,11 @@ const User = require('../models/user')
 router.get('/', auth, async (req, res) => {
   try {
     const user = await User.findById(req.userId).populate('recipes')
-    res.send(user.recipes)
+    res.send({ success: true, data: user.recipes })
   } catch (error) {
-    res.status(400).json(`Failed to get recipes. Please try again.`)
+    res
+      .status(400)
+      .json({ success: false, msg: 'Failed to get recipes. Please try again.' })
   }
 })
 
@@ -32,7 +34,9 @@ router.post('/', auth, async (req, res) => {
 
     res.send({ success: true })
   } catch (error) {
-    res.status(400).json(`Failed to add recipe. Please try again.`)
+    res
+      .status(400)
+      .json({ success: false, msg: 'Failed to add recipe. Please try again.' })
   }
 })
 

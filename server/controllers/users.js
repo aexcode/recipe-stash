@@ -15,22 +15,26 @@ router.post('/register', async (req, res) => {
 
     // Validation check for all fields
     if (!email || !password) {
-      return res.status(400).json({ msg: 'Not all fields have been entered' })
+      return res
+        .status(400)
+        .json({ success: false, msg: 'Not all fields have been entered' })
     }
 
     // Validation check for password length
     if (password.length < 8) {
-      return res
-        .status(400)
-        .json({ msg: 'Password must be at least 8 characters long' })
+      return res.status(400).json({
+        success: false,
+        msg: 'Password must be at least 8 characters long',
+      })
     }
     // Validation check for existing user
     const existingUser = await User.findOne({ email: email })
 
     if (existingUser) {
-      return res
-        .status(400)
-        .json({ msg: 'An account with this email address already exists' })
+      return res.status(400).json({
+        success: false,
+        msg: 'An account with this email address already exists',
+      })
     }
 
     // Hash password
@@ -44,9 +48,9 @@ router.post('/register', async (req, res) => {
 
     // Save user to database
     const savedUser = await newUser.save()
-    res.json(savedUser)
+    res.json({ success: true, savedUser })
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    res.status(500).json({ success: false, msg: error.message })
   }
 })
 
@@ -58,13 +62,16 @@ router.post('/login', async (req, res) => {
 
     // Validation check for all fields
     if (!email || !password) {
-      return res.status(400).json({ msg: 'Not all fields have been entered' })
+      return res
+        .status(400)
+        .json({ success: false, msg: 'Not all fields have been entered' })
     }
 
     // Validation check for password to email address
     const user = await User.findOne({ email: email })
     if (!user) {
       return res.status(400).json({
+        success: false,
         msg: 'No account with this email address has been registered ',
       })
     }
@@ -72,7 +79,9 @@ router.post('/login', async (req, res) => {
     // Compare password and hash
     const isMatch = await bcrypt.compareSync(password, user.password)
     if (!isMatch) {
-      return res.status(400).json({ msg: 'Invalid credentials' })
+      return res
+        .status(400)
+        .json({ success: false, msg: 'Invalid credentials' })
     }
 
     // Sign jsonwebtoken
@@ -82,7 +91,7 @@ router.post('/login', async (req, res) => {
       user,
     })
   } catch (error) {
-    res.status(400).json({ error: error.message })
+    res.status(400).json({ success: false, msg: error.message })
   }
 })
 
@@ -90,17 +99,17 @@ router.post('/login', async (req, res) => {
 router.post('/isTokenValid', async (req, res) => {
   try {
     const token = req.header('auth-token')
-    if (!token) return res.json(false)
+    if (!token) return res.json({ success: false })
 
     const verified = jwt.verify(token, process.env.JWT_SECRET)
-    if (!verified) return res.json(false)
+    if (!verified) return res.json({ success: false })
 
     const user = await User.findById(verified.id)
-    if (!user) return res.json(false)
+    if (!user) return res.json({ success: false })
 
     return res.json(true)
   } catch (err) {
-    res.status(500).json({ error: err.message })
+    res.status(500).json({ success: false, msg: err.message })
   }
 })
 
@@ -108,9 +117,7 @@ router.post('/isTokenValid', async (req, res) => {
 router.get('/', auth, async (req, res) => {
   const user = await User.findById(req.userId)
 
-  res.json({
-    id: user._id,
-  })
+  res.status(200).json({ success: true, id: user._id })
 })
 
 // Exports
