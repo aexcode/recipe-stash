@@ -15,7 +15,27 @@ export const RecipeProvider = ({ children }) => {
   const { currentUser } = useAuth()
 
   const addRecipe = async (url) => {
-    console.log(url)
+    setLoading(true)
+
+    if (currentUser.isAuth) {
+      const recipeRes = await Axios.post(
+        '/api/recipes',
+        { url },
+        {
+          headers: {
+            'auth-token': currentUser.token,
+          },
+        }
+      ).catch((error) => {
+        console.log(error.response.data.msg)
+      })
+
+      if (recipeRes) {
+        getRecipes()
+      }
+    }
+
+    setLoading(false)
   }
 
   const getRecipes = async () => {
