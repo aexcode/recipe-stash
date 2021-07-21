@@ -32,7 +32,7 @@ router.post('/', auth, async (req, res) => {
       { new: true }
     )
 
-    res.send({ success: true })
+    res.send({ success: true, recipes: user.recipes })
   } catch (error) {
     res
       .status(400)
