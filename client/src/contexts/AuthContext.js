@@ -54,6 +54,25 @@ export const AuthProvider = ({ children }) => {
     checkLoggedIn()
   }, [currentUser.isAuth])
 
+  const register = async (email, password) => {
+    setLoading(true)
+
+    // attempt to register a user
+    const registerRes = await Axios.post('/api/users/register', {
+      email,
+      password,
+    }).catch((error) => {
+      console.log(error.response.data)
+    })
+
+    // if registration is successful, login the user
+    if (registerRes) {
+      login(email, password)
+    } else {
+      setLoading(false)
+    }
+  }
+
   const login = async (email, password) => {
     setLoading(true)
 
@@ -91,7 +110,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   // Provider value
-  const value = { currentUser, login, logout }
+  const value = { currentUser, login, logout, register }
 
   if (loading) return <h1>Loading...</h1>
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

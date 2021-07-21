@@ -16,7 +16,6 @@ export const Login = () => {
   return (
     <Layout>
       <h1>Login</h1>
-
       <form onSubmit={handleSubmit}>
         <input
           type='email'
@@ -34,8 +33,9 @@ export const Login = () => {
 
         <input type='submit' value='Sign In' />
       </form>
-
-      <Link to='/sign-up'>Create an Account</Link>
+      <aside>
+        <Link to='/sign-up'>Create an Account</Link>
+      </aside>
     </Layout>
   )
 }
