@@ -89,7 +89,7 @@ router.post('/login', async (req, res) => {
 // Verify Auth Token
 router.post('/isTokenValid', async (req, res) => {
   try {
-    const token = req.header('x-auth-token')
+    const token = req.header('auth-token')
     if (!token) return res.json(false)
 
     const verified = jwt.verify(token, process.env.JWT_SECRET)
