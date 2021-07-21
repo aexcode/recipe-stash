@@ -6,6 +6,7 @@ const Schema = mongoose.Schema
 const userSchema = new Schema({
   email: { type: String, lowercase: true, required: true, unique: true },
   password: { type: String, required: true, minLength: 8 },
+  recipes: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }],
 })
 
 // Remove the password property when serializing doc to JSON

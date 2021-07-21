@@ -106,7 +106,8 @@ router.post('/isTokenValid', async (req, res) => {
 
 // Return logged in user's ID
 router.get('/', auth, async (req, res) => {
-  const user = await User.findById(req.user)
+  const user = await User.findById(req.userId)
+
   res.json({
     id: user._id,
   })

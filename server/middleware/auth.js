@@ -16,7 +16,7 @@ const auth = (req, res, next) => {
         .json({ msg: 'Token vaerification failed, access denied' })
     }
 
-    req.user = verified.id
+    req.userId = verified.id
     next()
   } catch (error) {
     res.status(400).json({ error: error.message })

@@ -13,6 +13,7 @@ app.use(express.json())
 
 // Routes
 app.use('/api/users', require('./controllers/users'))
+app.use('/api/recipes', require('./controllers/recipes'))
 
 // App listener
 const PORT = process.env.PORT || 5000
