@@ -1,10 +1,26 @@
-import { Layout, NewRecipeForm } from '../components'
+import { useRecipes } from '../contexts'
+import {
+  Layout,
+  NewRecipeForm,
+  EmptyRecipeDisplay,
+  RecipeCard,
+} from '../components'
 
 export const Dashboard = () => {
+  const { recipes } = useRecipes()
+
   return (
     <Layout>
-      <h1>Dashboard</h1>
       <NewRecipeForm />
+
+      {recipes.length === 0 && <EmptyRecipeDisplay />}
+      {recipes.length > 0 && (
+        <div>
+          {recipes.map((recipe, i) => (
+            <RecipeCard recipe={recipe} key={i} />
+          ))}
+        </div>
+      )}
     </Layout>
   )
 }
