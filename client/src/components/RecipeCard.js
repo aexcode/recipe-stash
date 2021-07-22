@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import pencilImg from '../assets/bx-pencil.svg'
 import { EditRecipeForm } from '../components'
+import pencilImg from '../assets/bx-pencil.svg'
 
 export const RecipeCard = ({ recipe }) => {
   const [isEditing, setIsEditing] = useState(false)
@@ -16,7 +16,11 @@ export const RecipeCard = ({ recipe }) => {
           </button>
 
           <div>
-            <h2>{recipe.title}</h2>
+            <h2>
+              <a href={recipe.url} target='_blank' rel='noreferrer'>
+                {recipe.title}
+              </a>
+            </h2>
           </div>
         </>
       )}
