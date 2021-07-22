@@ -10,7 +10,7 @@ const User = require('../models/user')
 router.get('/', auth, async (req, res) => {
   try {
     const user = await User.findById(req.userId).populate('recipes')
-    res.send({ success: true, recipes: user.recipes })
+    res.send({ success: true, recipes: user.recipes.reverse() })
   } catch (error) {
     res
       .status(400)
@@ -47,6 +47,26 @@ router.post('/', auth, async (req, res) => {
   }
 })
 
+// Delete: Delete a recipe
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const deletedRecipe = await Recipe.findByIdAndDelete(req.params.id)
+
+    const user = await User.findById(req.userId)
+    user.recipes = user.recipes.filter(
+      (id) => id.toString() !== deletedRecipe._id.toString()
+    )
+
+    await user.save()
+    res.status(200).json({ success: true })
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      msg: 'Failed to delete recipe. Please try again.',
+    })
+  }
+})
+
 // Update: Edit a recipe
 router.put('/:id', auth, async (req, res) => {
   try {
@@ -54,7 +74,6 @@ router.put('/:id', auth, async (req, res) => {
     const updatedRecipe = {
       ...originalRecipe._doc,
       title: req.body.title,
-      description: req.body.description,
     }
 
     const recipe = await Recipe.findByIdAndUpdate(

@@ -2,6 +2,7 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { useAuth } from '../contexts'
 import Axios from 'axios'
+import { set } from 'mongoose'
 
 // Create recipe context
 const RecipeContext = createContext()
@@ -38,7 +39,7 @@ export const RecipeProvider = ({ children }) => {
     setLoading(false)
   }
 
-  const updateRecipe = async ({ id, title, description }) => {
+  const updateRecipe = async ({ id, title }) => {
     setLoading(true)
 
     if (currentUser.isAuth) {
@@ -46,7 +47,6 @@ export const RecipeProvider = ({ children }) => {
         `/api/recipes/${id}`,
         {
           title,
-          description,
         },
         {
           headers: {
@@ -77,13 +77,30 @@ export const RecipeProvider = ({ children }) => {
     setLoading(false)
   }
 
+  const deleteRecipe = async (id) => {
+    setLoading(true)
+    if (currentUser.isAuth) {
+      const recipeRes = await Axios.delete(`/api/recipes/${id}`, {
+        headers: {
+          'auth-token': currentUser.token,
+        },
+      })
+
+      if (recipeRes.data.success) {
+        getRecipes()
+      }
+    }
+
+    setLoading(false)
+  }
+
   useEffect(() => {
     getRecipes()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser.isAuth])
 
-  const value = { addRecipe, updateRecipe, recipes }
+  const value = { addRecipe, updateRecipe, deleteRecipe, recipes }
 
   if (loading) return <h1>Loading...</h1>
   return (
