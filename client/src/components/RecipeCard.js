@@ -1,14 +1,16 @@
 import { useState, useRef } from 'react'
+import { useRecipes } from '../contexts'
 import pencilImg from '../assets/bx-pencil.svg'
 
 export const RecipeCard = ({ recipe }) => {
+  const { updateRecipe } = useRecipes()
   const [isEditing, setIsEditing] = useState(false)
   const titleRef = useRef()
   const descriptionRef = useRef()
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log({
+  const handleSaveChanges = (id) => {
+    updateRecipe({
+      id,
       title: titleRef.current.value,
       description: descriptionRef.current.value,
     })
@@ -30,7 +32,7 @@ export const RecipeCard = ({ recipe }) => {
 
       {isEditing && (
         <>
-          <button type='submit' onClick={handleSubmit}>
+          <button type='submit' onClick={() => handleSaveChanges(recipe._id)}>
             Save Changes
           </button>
 

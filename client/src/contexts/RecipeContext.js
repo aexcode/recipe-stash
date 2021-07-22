@@ -38,6 +38,30 @@ export const RecipeProvider = ({ children }) => {
     setLoading(false)
   }
 
+  const updateRecipe = async ({ id, title, description }) => {
+    setLoading(true)
+
+    if (currentUser.isAuth) {
+      const recipeRes = await Axios.put(
+        `/api/recipes/${id}`,
+        {
+          title,
+          description,
+        },
+        {
+          headers: {
+            'auth-token': currentUser.token,
+          },
+        }
+      )
+
+      if (recipeRes.data.success) {
+        getRecipes()
+      }
+    }
+    setLoading(false)
+  }
+
   const getRecipes = async () => {
     setLoading(true)
     if (currentUser.isAuth) {
@@ -59,7 +83,7 @@ export const RecipeProvider = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser.isAuth])
 
-  const value = { addRecipe, recipes }
+  const value = { addRecipe, updateRecipe, recipes }
 
   if (loading) return <h1>Loading...</h1>
   return (

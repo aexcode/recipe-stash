@@ -47,5 +47,32 @@ router.post('/', auth, async (req, res) => {
   }
 })
 
+// Update: Edit a recipe
+router.put('/:id', auth, async (req, res) => {
+  try {
+    const originalRecipe = await Recipe.findById(req.params.id)
+    const updatedRecipe = {
+      ...originalRecipe._doc,
+      title: req.body.title,
+      description: req.body.description,
+    }
+
+    const recipe = await Recipe.findByIdAndUpdate(
+      req.params.id,
+      updatedRecipe,
+      {
+        new: true,
+      }
+    )
+
+    res.send({ success: true })
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      msg: 'Failed to update recipe. Please try again.',
+    })
+  }
+})
+
 // Export recipe router
 module.exports = router
