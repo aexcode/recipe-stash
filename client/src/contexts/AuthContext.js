@@ -85,7 +85,7 @@ export const AuthProvider = ({ children }) => {
     })
 
     // if logging in is successful
-    if (loginRes.data.success) {
+    if (loginRes?.data.success) {
       // setCurrentUser
       setCurrentUser({
         token: loginRes.data.token,
