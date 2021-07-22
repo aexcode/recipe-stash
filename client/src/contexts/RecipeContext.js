@@ -2,7 +2,6 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { useAuth } from '../contexts'
 import Axios from 'axios'
-import { set } from 'mongoose'
 
 // Create recipe context
 const RecipeContext = createContext()
