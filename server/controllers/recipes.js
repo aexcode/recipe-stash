@@ -104,11 +104,11 @@ router.delete('/:id', auth, async (req, res) => {
     user.recipes = user.recipes.filter(
       (id) => id.toString() !== deletedRecipe._id.toString()
     )
+    await user.save()
 
     // remove recipe image from server
     fs.unlinkSync(deletedRecipe.image)
 
-    await user.save()
     res.status(200).json({ success: true })
   } catch (error) {
     res.status(400).json({
