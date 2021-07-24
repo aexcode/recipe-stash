@@ -50,7 +50,9 @@ router.post('/', auth, async (req, res) => {
     imgUrl = imgUrl.split('?')[0]
 
     // create file name and path to image
-    const fileNameTemplate = `aexcode-${Date.now()}${path.extname(imgUrl)}`
+    const fileNameTemplate = `aexcode-recipe-stash-${Date.now()}${path.extname(
+      imgUrl
+    )}`
     const uploads = path.resolve(__dirname, '../uploads', fileNameTemplate)
     const imagePath = `server/uploads/${fileNameTemplate}`
 
