@@ -1,7 +1,8 @@
 import { useRef } from 'react'
 import { useAuth } from '../contexts'
 import { Link } from 'react-router-dom'
-import { Layout } from '../components'
+
+import Layout from '../layout/Layout'
 
 export const Login = () => {
   const { login } = useAuth()

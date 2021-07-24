@@ -1,10 +1,7 @@
 import { useRecipes } from '../contexts'
-import {
-  Layout,
-  NewRecipeForm,
-  EmptyRecipeDisplay,
-  RecipeCard,
-} from '../components'
+
+import Layout from '../layout/Layout'
+import { NewRecipeForm, EmptyRecipeDisplay, RecipeCard } from '../components'
 
 export const Dashboard = () => {
   const { recipes } = useRecipes()
