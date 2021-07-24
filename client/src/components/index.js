@@ -1,5 +1,6 @@
 export * from './EditRecipeForm'
 export * from './EmptyRecipeDisplay'
 export * from './GuestRoute'
+export * from './Heading'
 export * from './NewRecipeForm'
 export * from './RecipeCard'

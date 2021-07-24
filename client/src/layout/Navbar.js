@@ -21,7 +21,7 @@ export default function Navbar() {
                     type='button'
                     className='btn btn-link nav-link'
                     onClick={logout}>
-                    Logout
+                    LOGOUT
                   </button>
                 </li>
               )}
@@ -29,8 +29,8 @@ export default function Navbar() {
               {/* if user is not logged in and it's not the login page, display login link */}
               {!currentUser.isAuth && !isLoginPage && (
                 <li className='nav-item'>
-                  <Link className='nav-link fs-6' to='sign-in'>
-                    Sign In
+                  <Link className='nav-link' to='sign-in'>
+                    SIGN IN
                   </Link>
                 </li>
               )}
@@ -38,8 +38,8 @@ export default function Navbar() {
               {/* if user is not logged in and it is the login page, display register link */}
               {!currentUser.isAuth && isLoginPage && (
                 <li className='nav-item'>
-                  <Link className='nav-link fs-6' to='sign-up'>
-                    Sign Up
+                  <Link className='nav-link' to='sign-up'>
+                    SIGN UP
                   </Link>
                 </li>
               )}

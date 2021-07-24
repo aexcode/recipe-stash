@@ -3,6 +3,7 @@ import { useAuth } from '../contexts'
 import { Link } from 'react-router-dom'
 
 import Layout from '../layout/Layout'
+import { Heading } from '../components'
 
 export const Register = () => {
   const { register } = useAuth()
@@ -16,7 +17,7 @@ export const Register = () => {
 
   return (
     <Layout>
-      <h1>Sign Up</h1>
+      <Heading size={2}>Sign Up</Heading>
       <form onSubmit={handleSubmit}>
         <input
           type='email'

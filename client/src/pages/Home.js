@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 
 import Layout from '../layout/Layout'
+import { Heading } from '../components'
 import image from '../assets/undraw_Notes_re_pxhw.svg'
 
 export const Home = () => {
@@ -19,9 +20,7 @@ export const Home = () => {
             <div className='col col-lg-1'></div>
             <div className='col-sm-6 col-lg-4'>
               <div className='row mt-4'>
-                <h1 className='display-3 text-center text-md-start mb-3'>
-                  Recipe Stash
-                </h1>
+                <Heading size={1}>Recipe Stash</Heading>
                 <p className='lead'>
                   Quick save recipes from around the web, for easy access when
                   it's time to cook.

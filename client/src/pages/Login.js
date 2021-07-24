@@ -3,6 +3,7 @@ import { useAuth } from '../contexts'
 import { Link } from 'react-router-dom'
 
 import Layout from '../layout/Layout'
+import { Heading } from '../components'
 
 export const Login = () => {
   const { login } = useAuth()
@@ -16,7 +17,7 @@ export const Login = () => {
 
   return (
     <Layout>
-      <h1>Login</h1>
+      <Heading size={2}>Login</Heading>
       <form onSubmit={handleSubmit}>
         <input
           type='email'
