@@ -96,12 +96,17 @@ router.post('/', auth, async (req, res) => {
 // Delete: Delete a recipe
 router.delete('/:id', auth, async (req, res) => {
   try {
+    // delete recipe from database
     const deletedRecipe = await Recipe.findByIdAndDelete(req.params.id)
 
+    // remove recipe from user's recipe array
     const user = await User.findById(req.userId)
     user.recipes = user.recipes.filter(
       (id) => id.toString() !== deletedRecipe._id.toString()
     )
+
+    // remove recipe image from server
+    fs.unlinkSync(deletedRecipe.image)
 
     await user.save()
     res.status(200).json({ success: true })
