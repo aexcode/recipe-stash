@@ -6,9 +6,9 @@ import image from '../assets/undraw_Notes_re_pxhw.svg'
 export const Home = () => {
   return (
     <Layout>
-      <div className='container'>
+      <div className='container-fluid'>
         <div className='d-flex flex-column'>
-          <div className='row flex-md-row-reverse'>
+          <div className='row flex-md-row-reverse '>
             {/* image */}
             <div className='col-md-6'>
               <img src={image} alt='' className='img-fluid' />
@@ -16,8 +16,8 @@ export const Home = () => {
 
             {/* info */}
             <div className='col-md-6'>
-              <div className='row '>
-                <h1 className='display-3 text-center text-md-start'>
+              <div className='row mt-4'>
+                <h1 className='display-3 text-center text-md-start mb-3'>
                   Recipe Stash
                 </h1>
                 <p className='lead'>
@@ -25,11 +25,13 @@ export const Home = () => {
                   it's time to cook.
                 </p>
 
-                <div class='btn-group-vertical'>
+                <div class='btn-group-vertical mt-1'>
                   <Link to='/sign-up' class='btn btn-primary btn-lg'>
                     Get Started
                   </Link>
-                  <Link to='/sign-in' class='btn btn-outline-primary btn-lg'>
+                  <Link
+                    to='/sign-in'
+                    class='btn btn-outline-primary btn-lg mt-3'>
                     Sign In
                   </Link>
                 </div>
