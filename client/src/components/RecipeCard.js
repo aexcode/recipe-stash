@@ -4,6 +4,7 @@ import pencilImg from '../assets/bx-pencil.svg'
 
 export const RecipeCard = ({ recipe }) => {
   const [isEditing, setIsEditing] = useState(false)
+  const { image, title, url } = recipe
 
   return (
     <div>
@@ -16,9 +17,10 @@ export const RecipeCard = ({ recipe }) => {
           </button>
 
           <div>
+            <img src={image} alt='' />
             <h2>
-              <a href={recipe.url} target='_blank' rel='noreferrer'>
-                {recipe.title}
+              <a href={url} target='_blank' rel='noreferrer'>
+                {title}
               </a>
             </h2>
           </div>

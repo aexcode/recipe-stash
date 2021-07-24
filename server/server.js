@@ -12,6 +12,7 @@ require('./config/database')
 // Middleware
 app.use(cors())
 app.use(express.json())
+app.use('/server/uploads', express.static('server/uploads'))
 
 // Routes
 app.use('/api/users', require('./controllers/users'))
