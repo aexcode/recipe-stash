@@ -7,9 +7,9 @@ export default function Navbar() {
 
   return (
     <>
-      <nav class='navbar navbar-light bg-light'>
+      <nav className='navbar navbar-light bg-light'>
         <div className='container-fluid'>
-          <Link class='navbar-brand' to='/'>
+          <Link className='navbar-brand' to='/'>
             Recipe Stash
           </Link>
           <div className='d-flex'>
@@ -19,7 +19,7 @@ export default function Navbar() {
                 <li className='nav-item'>
                   <button
                     type='button'
-                    class='btn btn-link nav-link'
+                    className='btn btn-link nav-link'
                     onClick={logout}>
                     Logout
                   </button>
