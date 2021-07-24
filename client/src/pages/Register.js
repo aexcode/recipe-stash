@@ -1,40 +1,16 @@
-import { useRef } from 'react'
 import { useAuth } from '../contexts'
 import { Link } from 'react-router-dom'
 
 import Layout from '../layout/Layout'
-import { Heading } from '../components'
+import { AuthForm, Heading } from '../components'
 
-export const Register = () => {
+export const Register = ({ onSubmit }) => {
   const { register } = useAuth()
-  const emailRef = useRef()
-  const passwordRef = useRef()
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    register(emailRef.current.value, passwordRef.current.value)
-  }
 
   return (
     <Layout>
-      <Heading size={2}>Sign Up</Heading>
-      <form onSubmit={handleSubmit}>
-        <input
-          type='email'
-          ref={emailRef}
-          placeholder='Email Address'
-          aria-label='Email address'
-        />
-
-        <input
-          type='password'
-          ref={passwordRef}
-          placeholder='Password'
-          aria-label='Password'
-        />
-
-        <input type='submit' value='Create Account' />
-      </form>
+      <Heading size={2}>Create an Account</Heading>
+      <AuthForm onSubmit={register} submitText='Create Account' />
 
       <aside>
         Have an account? <Link to='/sign-in'>Sign in</Link>

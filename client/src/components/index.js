@@ -1,3 +1,4 @@
+export * from './AuthForm'
 export * from './EditRecipeForm'
 export * from './EmptyRecipeDisplay'
 export * from './GuestRoute'
