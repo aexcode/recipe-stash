@@ -32,4 +32,5 @@ MongoDB | Express | React | Node | Bootstrap | [Link Preview API](https://www.li
 
 <div align='center'>
   <img src='https://i.imgur.com/q25wPEH.png' alt='Empty dashboard' />
+  <p>View all the <a href='https://imgur.com/a/bXaUfUu' target='_blank'>App Screenshots</a> on Imgur</p>
 </div>
