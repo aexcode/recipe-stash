@@ -3,9 +3,15 @@ import { Heading } from '../components'
 
 export const EmptyRecipeDisplay = () => {
   return (
-    <div>
+    <div className='text-center'>
       <Heading size={2}>You have no saved recipes.</Heading>
-      <img src={onlineGroceries} alt='woman looking at online recipes' />
+
+      <img
+        className='w-75 mt-3'
+        src={onlineGroceries}
+        alt='woman looking at online recipes'
+        style={{ maxWidth: '400px' }}
+      />
     </div>
   )
 }
