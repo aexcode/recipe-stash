@@ -15,25 +15,36 @@ router.post('/register', async (req, res) => {
 
     // Validation check for all fields
     if (!email || !password) {
-      return res
-        .status(400)
-        .json({ success: false, msg: 'Not all fields have been entered' })
+      const errorMessages = {}
+
+      if (!email) errorMessages.email = 'Please provide a valid email address'
+      if (!password) errorMessages.password = 'Please provide a secure password'
+
+      return res.status(400).json({
+        success: false,
+        messages: errorMessages,
+      })
+    }
+
+    // Validation check for existing user
+    const existingUser = await User.findOne({ email: email })
+
+    if (existingUser) {
+      return res.status(409).json({
+        success: false,
+        messages: {
+          email: 'An account with this email address already exists',
+        },
+      })
     }
 
     // Validation check for password length
     if (password.length < 8) {
       return res.status(400).json({
         success: false,
-        msg: 'Password must be at least 8 characters long',
-      })
-    }
-    // Validation check for existing user
-    const existingUser = await User.findOne({ email: email })
-
-    if (existingUser) {
-      return res.status(400).json({
-        success: false,
-        msg: 'An account with this email address already exists',
+        messages: {
+          password: 'Password must be at least 8 characters long',
+        },
       })
     }
 

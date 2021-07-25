@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }) => {
       email,
       password,
     }).catch((error) => {
-      console.log(error.response.data)
+      console.log(error.response.data.messages)
     })
 
     // if registration is successful, login the user
