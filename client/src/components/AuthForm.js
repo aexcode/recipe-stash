@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { Error } from '../components'
 
 export const AuthForm = ({ onSubmit, onSuccess, submitText }) => {
+  const [loading, setLoading] = useState(false)
   const emailRef = useRef()
   const passwordRef = useRef()
   const [errors, setErrors] = useState({
@@ -20,6 +21,7 @@ export const AuthForm = ({ onSubmit, onSuccess, submitText }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true)
 
     const response = await onSubmit(
       emailRef.current.value,
@@ -27,15 +29,17 @@ export const AuthForm = ({ onSubmit, onSuccess, submitText }) => {
     )
 
     if (!response.data.success) {
+      setLoading(false)
       return setErrors((prevState) => ({
         ...prevState,
         ...response.data.messages,
       }))
     }
 
-    return (
-      onSuccess && onSuccess(emailRef.current.value, passwordRef.current.value)
-    )
+    onSuccess &&
+      (await onSuccess(emailRef.current.value, passwordRef.current.value))
+
+    setLoading(false)
   }
 
   return (
@@ -66,7 +70,7 @@ export const AuthForm = ({ onSubmit, onSuccess, submitText }) => {
         {errors.password && <Error message={errors.password} />}
       </div>
       <div className='d-grid'>
-        <button type='submit' className='btn btn-primary'>
+        <button type='submit' className='btn btn-primary' disabled={loading}>
           {submitText}
         </button>
       </div>

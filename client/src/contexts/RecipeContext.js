@@ -10,6 +10,7 @@ const RecipeContext = createContext()
 export const useRecipes = () => useContext(RecipeContext)
 
 export const RecipeProvider = ({ children }) => {
+  const [loading, setLoading] = useState(false)
   const [recipes, setRecipes] = useState([])
   const { currentUser } = useAuth()
 
@@ -58,7 +59,12 @@ export const RecipeProvider = ({ children }) => {
         'auth-token': currentUser.token,
       },
     }).catch((error) => {
-      console.log(error.response.data.msg)
+      return {
+        data: {
+          success: false,
+          messages: error.response.data.messages,
+        },
+      }
     })
     if (response.data.success) await setRecipes(response.data.recipes)
   }
@@ -75,7 +81,13 @@ export const RecipeProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    getRecipes()
+    const fetchRecipes = async () => {
+      setLoading(true)
+      await getRecipes()
+      setLoading(false)
+    }
+
+    fetchRecipes()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser.isAuth])
@@ -83,6 +95,8 @@ export const RecipeProvider = ({ children }) => {
   const value = { addRecipe, updateRecipe, deleteRecipe, recipes }
 
   return (
-    <RecipeContext.Provider value={value}>{children}</RecipeContext.Provider>
+    !loading && (
+      <RecipeContext.Provider value={value}>{children}</RecipeContext.Provider>
+    )
   )
 }

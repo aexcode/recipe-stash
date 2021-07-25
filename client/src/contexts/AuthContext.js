@@ -108,6 +108,9 @@ export const AuthProvider = ({ children }) => {
   // Provider value
   const value = { currentUser, login, logout, register }
 
-  if (loading) return <h1>Loading...</h1>
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+  return (
+    !loading && (
+      <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+    )
+  )
 }
