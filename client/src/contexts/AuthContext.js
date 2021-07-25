@@ -81,7 +81,7 @@ export const AuthProvider = ({ children }) => {
       email,
       password,
     }).catch((error) => {
-      console.log(error.response.data)
+      console.log(error.response.data.messages)
     })
 
     // if logging in is successful

@@ -73,33 +73,47 @@ router.post('/login', async (req, res) => {
 
     // Validation check for all fields
     if (!email || !password) {
-      return res
-        .status(400)
-        .json({ success: false, msg: 'Not all fields have been entered' })
+      const errorMessages = {}
+
+      if (!email) errorMessages.email = 'Please provide your email address'
+
+      if (!password) errorMessages.password = 'Please provide your password'
+
+      return res.status(400).json({ success: false, messages: errorMessages })
     }
 
     // Validation check for password to email address
     const user = await User.findOne({ email: email })
     if (!user) {
-      return res.status(400).json({
+      return res.status(404).json({
         success: false,
-        msg: 'No account with this email address has been registered ',
+        messages: {
+          email: 'User not found',
+        },
       })
     }
 
     // Compare password and hash
     const isMatch = await bcrypt.compareSync(password, user.password)
     if (!isMatch) {
-      return res
-        .status(400)
-        .json({ success: false, msg: 'Invalid credentials' })
+      return res.status(400).json({
+        success: false,
+        messages: {
+          form: 'Invalid credentials',
+        },
+      })
     }
 
     // Sign jsonwebtoken
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
     res.json({ success: true, token })
   } catch (error) {
-    res.status(400).json({ success: false, msg: error.message })
+    res.status(400).json({
+      success: false,
+      messages: {
+        form: 'Something went wrong - Please try again',
+      },
+    })
   }
 })
 
@@ -118,7 +132,7 @@ router.post('/isTokenValid', async (req, res) => {
     return res.json({ success: true })
   } catch (error) {
     console.log(error)
-    res.status(500).json({ success: false, msg: error.message })
+    res.status(500).json({ success: false, messages: error.message })
   }
 })
 
@@ -128,7 +142,10 @@ router.get('/', auth, async (req, res) => {
     const user = await User.findById(req.userId)
     res.status(200).json({ success: true, id: user._id })
   } catch (error) {
-    res.status(400).json(`Something went wrong. Please try again.`)
+    res.status(400).json({
+      success: false,
+      messages: 'Something went wrong - Please try again',
+    })
   }
 })
 
