@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }) => {
     })
 
     // if registration is successful, login the user
-    if (registerRes.data.success) {
+    if (registerRes?.data.success) {
       login(email, password)
     } else {
       setLoading(false)
