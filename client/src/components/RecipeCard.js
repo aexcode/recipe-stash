@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { EditRecipeForm } from '../components'
-import pencilImg from '../assets/bx-pencil.svg'
+
+import pencilIcon from '../assets/pencil.svg'
 
 export const RecipeCard = ({ recipe }) => {
   const [isEditing, setIsEditing] = useState(false)
@@ -31,14 +32,16 @@ export const RecipeCard = ({ recipe }) => {
                 className='btn btn-link'
                 aria-label='Edit this recipe'
                 onClick={() => setIsEditing(!isEditing)}>
-                <img src={pencilImg} alt='' />
+                <img className='h5' src={pencilIcon} alt='' />
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {isEditing && <EditRecipeForm recipe={recipe} />}
+      {isEditing && (
+        <EditRecipeForm setIsEditing={setIsEditing} recipe={recipe} />
+      )}
     </>
   )
 }

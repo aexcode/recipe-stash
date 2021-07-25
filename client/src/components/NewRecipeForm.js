@@ -18,7 +18,7 @@ export const NewRecipeForm = () => {
           onSubmit={handleSubmit}>
           <div className='col-md-8'>
             <input
-              className='border border-2 rounded w-100 mb-3 p-2'
+              className='form-control border border-2 rounded w-100 mb-3 p-2'
               type='url'
               placeholder='https://greatrecipes.com/delicious-meal'
               ref={urlRef}
