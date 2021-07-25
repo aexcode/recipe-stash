@@ -36,10 +36,10 @@ export const AuthForm = ({ onSubmit, onSuccess, submitText }) => {
       }))
     }
 
-    onSuccess &&
-      (await onSuccess(emailRef.current.value, passwordRef.current.value))
-
-    setLoading(false)
+    if (onSuccess) {
+      setLoading(false)
+      onSuccess(emailRef.current.value, passwordRef.current.value)
+    }
   }
 
   return (
