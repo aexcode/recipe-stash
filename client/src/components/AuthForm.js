@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { Error } from '../components'
 
 export const AuthForm = ({ onSubmit, onSuccess, submitText }) => {
   const emailRef = useRef()
@@ -8,6 +9,14 @@ export const AuthForm = ({ onSubmit, onSuccess, submitText }) => {
     email: '',
     password: '',
   })
+
+  const clearError = (type) => {
+    setErrors((prevState) => ({
+      ...prevState,
+      form: '',
+      [type]: '',
+    }))
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -32,25 +41,30 @@ export const AuthForm = ({ onSubmit, onSuccess, submitText }) => {
   console.log(errors)
   return (
     <form className='mb-3' onSubmit={handleSubmit}>
+      {errors.form && <Error message={errors.form} />}
       <div className='mb-3'>
         <input
           type='email'
           ref={emailRef}
+          onClick={() => clearError('email')}
           className='form-control'
           aria-describedby='emailHelp'
           placeholder='Email address'
           aria-label='Email address'
         />
+        {errors.email && <Error message={errors.email} />}
       </div>
 
       <div className='mb-3'>
         <input
           type='password'
           ref={passwordRef}
+          onClick={() => clearError('password')}
           className='form-control'
           placeholder='Password'
           aria-label='Password'
         />
+        {errors.password && <Error message={errors.password} />}
       </div>
       <div className='d-grid'>
         <button type='submit' className='btn btn-primary'>
