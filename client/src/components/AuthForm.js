@@ -38,7 +38,6 @@ export const AuthForm = ({ onSubmit, onSuccess, submitText }) => {
     )
   }
 
-  console.log(errors)
   return (
     <form className='mb-3' onSubmit={handleSubmit}>
       {errors.form && <Error message={errors.form} />}
