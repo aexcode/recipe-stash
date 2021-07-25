@@ -1,41 +1,30 @@
-import { useRef } from 'react'
 import { useAuth } from '../contexts'
 import { Link } from 'react-router-dom'
-import { Layout } from '../components'
+
+import Layout from '../layout/Layout'
+import { Heading, AuthForm } from '../components'
 
 export const Login = () => {
   const { login } = useAuth()
-  const emailRef = useRef()
-  const passwordRef = useRef()
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    login(emailRef.current.value, passwordRef.current.value)
-  }
 
   return (
     <Layout>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type='email'
-          ref={emailRef}
-          placeholder='Email Address'
-          aria-label='Email Address'
-        />
+      <div className='container-fluid'>
+        <div className='row'>
+          <div className='col-sm-2 col-md-3 col-lg-4'></div>
+          <div className='col col-sm-6 col-lg-4'>
+            <Heading size={2}>Sign In</Heading>
 
-        <input
-          type='password'
-          ref={passwordRef}
-          placeholder='Password'
-          aria-label='Password'
-        />
-
-        <input type='submit' value='Sign In' />
-      </form>
-      <aside>
-        <Link to='/sign-up'>Create an Account</Link>
-      </aside>
+            <AuthForm onSubmit={login} submitText='Sign In' />
+            <aside>
+              <span className='small'>
+                Need an account? <Link to='/sign-up'>Sign up</Link>
+              </span>
+            </aside>
+          </div>
+          <div className='col-sm-2 col-md-3 col-lg-4'></div>
+        </div>
+      </div>
     </Layout>
   )
 }

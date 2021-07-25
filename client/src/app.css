@@ -1,0 +1,18 @@
+:root {
+  --primary: rgba(13, 110, 253, 0.5);
+}
+
+a,
+.btn-link {
+  text-decoration: none;
+}
+
+.form-control:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 transparent !important;
+}
+
+.aex-recipe-card-img {
+  height: 200px;
+  overflow: hidden;
+}
