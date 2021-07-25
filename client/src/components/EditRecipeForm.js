@@ -1,15 +1,26 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useRecipes } from '../contexts'
 
 export const EditRecipeForm = ({ recipe, setIsEditing }) => {
+  const [loading, setLoading] = useState(false)
   const { updateRecipe, deleteRecipe } = useRecipes()
   const titleRef = useRef()
 
-  const handleSaveChanges = (id) => {
-    updateRecipe({
+  const handleSaveChanges = async (id) => {
+    setLoading(true)
+    await updateRecipe({
       id,
       title: titleRef.current.value,
     })
+    setLoading(false)
+    setIsEditing(false)
+  }
+
+  const handleDeleteRecipe = async (id) => {
+    setLoading(true)
+    await deleteRecipe(id)
+    setLoading(false)
+    setIsEditing(false)
   }
 
   return (
@@ -31,21 +42,24 @@ export const EditRecipeForm = ({ recipe, setIsEditing }) => {
           </h5>
           <div className='btn-group w-100' role='group'>
             <button
-              className='btn btn-outline-danger'
+              className='btn btn-danger'
               type='button'
-              onClick={() => deleteRecipe(recipe._id)}>
+              onClick={() => handleDeleteRecipe(recipe._id)}
+              disabled={loading}>
               <span className='small'>DELETE</span>
             </button>
             <button
-              className='btn btn-outline-secondary'
+              className='btn btn-secondary'
               type='button'
-              onClick={() => setIsEditing(false)}>
+              onClick={() => setIsEditing(false)}
+              disabled={loading}>
               <span className='small'>CANCEL</span>
             </button>
             <button
-              className='btn btn-outline-primary'
+              className='btn btn-primary'
               type='button'
-              onClick={() => handleSaveChanges(recipe._id)}>
+              onClick={() => handleSaveChanges(recipe._id)}
+              disabled={loading}>
               <span className='small'>SAVE</span>
             </button>
           </div>

@@ -7,7 +7,8 @@ a,
   text-decoration: none;
 }
 
-.form-control:focus {
+.form-control:focus,
+button:focus {
   border-color: var(--primary) !important;
   box-shadow: 0 0 0 transparent !important;
 }

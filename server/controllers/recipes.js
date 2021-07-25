@@ -14,17 +14,28 @@ router.get('/', auth, async (req, res) => {
     const user = await User.findById(req.userId).populate('recipes')
     res.send({ success: true, recipes: user.recipes.reverse() })
   } catch (error) {
-    res
-      .status(400)
-      .json({ success: false, msg: 'Failed to get recipes. Please try again.' })
+    res.status(400).json({
+      success: false,
+      messages: {
+        global: 'Failed to get recipes. Please try again.',
+      },
+    })
   }
 })
 
 // New: Add a new recipe
 router.post('/', auth, async (req, res) => {
   try {
-    // grab the url from the form data
     const url = req.body.url
+
+    if (!url) {
+      return res.status(400).json({
+        success: false,
+        messages: {
+          url: 'Please provide a valid URL',
+        },
+      })
+    }
 
     // send url to Link Preview API
     const BASE_URL = `http://api.linkpreview.net/?key=${process.env.LINK_PREVIEW_API_KEY}`
@@ -43,7 +54,7 @@ router.post('/', auth, async (req, res) => {
     // validation check for file type
     const whitelist = /.jpeg|.jpg|.png/
     if (!whitelist.test(imgUrl)) {
-      return res.status(400).json({ success: false, msg: 'Invalid file type' })
+      imgUrl = ''
     }
 
     // cleanup imgUrl
@@ -64,9 +75,12 @@ router.post('/', auth, async (req, res) => {
     })
 
     if (!newRecipe) {
-      return res
-        .status(400)
-        .json({ success: false, msg: 'Failed to add recipe' })
+      return res.status(400).json({
+        success: false,
+        messages: {
+          form: 'Failed to add recipe',
+        },
+      })
     }
 
     // update user's recipes
@@ -79,19 +93,25 @@ router.post('/', auth, async (req, res) => {
     )
 
     if (!user) {
-      return res
-        .status(400)
-        .json({ success: false, msg: 'Failed to add recipe' })
+      return res.status(500).json({
+        success: false,
+        messages: {
+          form: 'User not found - Failed to save recipe',
+        },
+      })
     }
 
     // download image to uploads directory
     imgResponse.data.pipe(fs.createWriteStream(uploads))
 
-    res.send({ success: true, recipes: user.recipes })
+    res.send({ success: true })
   } catch (error) {
-    res
-      .status(400)
-      .json({ success: false, msg: 'Failed to add recipe. Please try again.' })
+    res.status(400).json({
+      success: false,
+      messages: {
+        form: 'Something went wrong -  Please try again',
+      },
+    })
   }
 })
 
@@ -141,7 +161,9 @@ router.put('/:id', auth, async (req, res) => {
   } catch (error) {
     res.status(400).json({
       success: false,
-      msg: 'Failed to update recipe. Please try again.',
+      messages: {
+        form: 'Failed to update recipe - please try again',
+      },
     })
   }
 })

@@ -1,14 +1,19 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useRecipes } from '../contexts'
 
 export const NewRecipeForm = () => {
+  const [loading, setLoading] = useState(false)
   const { addRecipe } = useRecipes()
   const urlRef = useRef()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    addRecipe(urlRef.current.value)
+    setLoading(true)
+    await addRecipe(urlRef.current.value)
+    urlRef.current.value = ''
+    setLoading(false)
   }
+
   return (
     <div className='row mb-4'>
       <div className='col-md-2 col-lg-3'></div>
@@ -28,8 +33,9 @@ export const NewRecipeForm = () => {
           <div className='col-md-4'>
             <button
               type='submit'
-              className='btn btn-primary w-100 mb-3 ms-md-2 p-2'>
-              Add Recipe
+              className='btn btn-primary w-100 mb-3 ms-md-2 p-2'
+              disabled={loading}>
+              {loading ? 'Please Wait...' : 'Add Recipe'}
             </button>
           </div>
         </form>

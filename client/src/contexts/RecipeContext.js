@@ -15,94 +15,88 @@ export const RecipeProvider = ({ children }) => {
   const { currentUser } = useAuth()
 
   const addRecipe = async (url) => {
-    setLoading(true)
-
-    if (currentUser.isAuth) {
-      const recipeRes = await Axios.post(
-        '/api/recipes',
-        { url },
-        {
-          headers: {
-            'auth-token': currentUser.token,
-          },
-        }
-      ).catch((error) => {
-        console.log(error.response.data.msg)
-      })
-
-      if (recipeRes.data.success) {
-        getRecipes()
+    const response = await Axios.post(
+      '/api/recipes',
+      { url },
+      {
+        headers: {
+          'auth-token': currentUser.token,
+        },
       }
-    }
+    ).catch((error) => {
+      return {
+        data: {
+          success: false,
+          messages: error.response.data.messages,
+        },
+      }
+    })
 
-    setLoading(false)
+    if (response.data.success) getRecipes()
+    return response
   }
 
   const updateRecipe = async ({ id, title }) => {
-    setLoading(true)
-
-    if (currentUser.isAuth) {
-      const recipeRes = await Axios.put(
-        `/api/recipes/${id}`,
-        {
-          title,
+    const response = await Axios.put(
+      `/api/recipes/${id}`,
+      {
+        title,
+      },
+      {
+        headers: {
+          'auth-token': currentUser.token,
         },
-        {
-          headers: {
-            'auth-token': currentUser.token,
-          },
-        }
-      )
-
-      if (recipeRes.data.success) {
-        getRecipes()
       }
-    }
-    setLoading(false)
+    )
+
+    if (response.data.success) await getRecipes()
+    return response
   }
 
   const getRecipes = async () => {
-    setLoading(true)
-    if (currentUser.isAuth) {
-      const recipeRes = await Axios.get('/api/recipes', {
-        headers: {
-          'auth-token': currentUser.token,
+    const response = await Axios.get('/api/recipes', {
+      headers: {
+        'auth-token': currentUser.token,
+      },
+    }).catch((error) => {
+      return {
+        data: {
+          success: false,
+          messages: error.response.data.messages,
         },
-      }).catch((error) => {
-        console.log(error.response.data.msg)
-      })
-      if (recipeRes.data.success) setRecipes(recipeRes.data.recipes)
-    }
-    setLoading(false)
+      }
+    })
+    if (response.data.success) await setRecipes(response.data.recipes)
   }
 
   const deleteRecipe = async (id) => {
-    setLoading(true)
-    if (currentUser.isAuth) {
-      const recipeRes = await Axios.delete(`/api/recipes/${id}`, {
-        headers: {
-          'auth-token': currentUser.token,
-        },
-      })
+    const response = await Axios.delete(`/api/recipes/${id}`, {
+      headers: {
+        'auth-token': currentUser.token,
+      },
+    })
 
-      if (recipeRes.data.success) {
-        getRecipes()
-      }
-    }
-
-    setLoading(false)
+    if (response.data.success) await getRecipes()
+    return response
   }
 
   useEffect(() => {
-    getRecipes()
+    const fetchRecipes = async () => {
+      setLoading(true)
+      await getRecipes()
+      setLoading(false)
+    }
+
+    fetchRecipes()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser.isAuth])
 
   const value = { addRecipe, updateRecipe, deleteRecipe, recipes }
 
-  if (loading) return <h1>Loading...</h1>
   return (
-    <RecipeContext.Provider value={value}>{children}</RecipeContext.Provider>
+    !loading && (
+      <RecipeContext.Provider value={value}>{children}</RecipeContext.Provider>
+    )
   )
 }

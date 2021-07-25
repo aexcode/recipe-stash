@@ -55,48 +55,45 @@ export const AuthProvider = ({ children }) => {
   }, [currentUser.isAuth])
 
   const register = async (email, password) => {
-    setLoading(true)
-
-    // attempt to register a user
-    const registerRes = await Axios.post('/api/users/register', {
+    const response = await Axios.post('/api/users/register', {
       email,
       password,
     }).catch((error) => {
-      console.log(error.response.data)
+      return {
+        data: {
+          success: false,
+          messages: error.response.data.messages,
+        },
+      }
     })
 
-    // if registration is successful, login the user
-    if (registerRes?.data.success) {
-      login(email, password)
-    } else {
-      setLoading(false)
-    }
+    return response
   }
 
   const login = async (email, password) => {
-    setLoading(true)
-
-    // attempt to login a user
-    const loginRes = await Axios.post('/api/users/login', {
+    const response = await Axios.post('/api/users/login', {
       email,
       password,
     }).catch((error) => {
-      console.log(error.response.data)
+      return {
+        data: {
+          success: false,
+          messages: error.response.data.messages,
+        },
+      }
     })
 
-    // if logging in is successful
-    if (loginRes?.data.success) {
-      // setCurrentUser
-      setCurrentUser({
-        token: loginRes.data.token,
-        isAuth: true,
-      })
+    // if login is unceccessful, return response w/ error messages
+    if (!response.data.success) return response
 
-      // set auth-token header
-      localStorage.setItem('auth-token', loginRes.data.token)
-    }
+    // if login is successful, set currentUser and auth-token
+    setCurrentUser({
+      token: response.data.token,
+      isAuth: true,
+    })
 
-    setLoading(false)
+    localStorage.setItem('auth-token', response.data.token)
+    return response
   }
 
   const logout = () => {
@@ -111,6 +108,9 @@ export const AuthProvider = ({ children }) => {
   // Provider value
   const value = { currentUser, login, logout, register }
 
-  if (loading) return <h1>Loading...</h1>
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+  return (
+    !loading && (
+      <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+    )
+  )
 }
