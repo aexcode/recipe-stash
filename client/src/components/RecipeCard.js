@@ -7,27 +7,38 @@ export const RecipeCard = ({ recipe }) => {
   const { image, title, url } = recipe
 
   return (
-    <div>
+    <>
       {!isEditing && (
-        <>
-          <button
-            aria-label='Edit this recipe'
-            onClick={() => setIsEditing(!isEditing)}>
-            <img src={pencilImg} alt='' />
-          </button>
-
-          <div>
-            <img src={image} alt='' />
-            <h2>
+        <div className='col'>
+          <div className='card mb-4'>
+            <div className='aex-recipe-card-img'>
               <a href={url} target='_blank' rel='noreferrer'>
-                {title}
+                <img src={image} className=' card-img-top' alt={title} />
               </a>
-            </h2>
+            </div>
+            <div className='card-body rounded shadow  bg-light.bg-gradient d-flex justify-content-between align-items-start'>
+              <h5 className='card-title'>
+                <a
+                  className='link-dark'
+                  href={url}
+                  target='_blank'
+                  rel='noreferrer'>
+                  {title}
+                </a>
+              </h5>
+              <button
+                type='button'
+                className='btn btn-link'
+                aria-label='Edit this recipe'
+                onClick={() => setIsEditing(!isEditing)}>
+                <img src={pencilImg} alt='' />
+              </button>
+            </div>
           </div>
-        </>
+        </div>
       )}
 
       {isEditing && <EditRecipeForm recipe={recipe} />}
-    </div>
+    </>
   )
 }
