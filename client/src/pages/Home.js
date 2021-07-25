@@ -11,14 +11,14 @@ export const Home = () => {
         <div className='d-flex flex-column'>
           <div className='row align-items-center flex-md-row-reverse '>
             {/* image */}
-            <div className='col col-lg-1'></div>
-            <div className='col-sm-5 col-lg-5'>
+            <div className=' col-md-1'></div>
+            <div className='col-md-5'>
               <img src={image} alt='' className='img-fluid' />
             </div>
 
             {/* info */}
-            <div className='col col-lg-1'></div>
-            <div className='col-sm-6 col-lg-4'>
+            <div className=' col-md-1'></div>
+            <div className='col-md-4'>
               <div className='row mt-4'>
                 <Heading size={1} className='text-md-start'>
                   Recipe Stash
@@ -40,7 +40,7 @@ export const Home = () => {
                 </div>
               </div>
             </div>
-            <div className='col col-lg-1'></div>
+            <div className=' col-md-1'></div>
           </div>
         </div>
       </div>
