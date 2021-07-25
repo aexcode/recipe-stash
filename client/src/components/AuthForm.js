@@ -10,22 +10,32 @@ export const AuthForm = ({ onSubmit, submitText }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type='email'
-        ref={emailRef}
-        placeholder='Email Address'
-        aria-label='Email address'
-      />
+    <form className='mb-3' onSubmit={handleSubmit}>
+      <div className='mb-3'>
+        <input
+          type='email'
+          ref={emailRef}
+          className='form-control'
+          aria-describedby='emailHelp'
+          placeholder='Email address'
+          aria-label='Email address'
+        />
+      </div>
 
-      <input
-        type='password'
-        ref={passwordRef}
-        placeholder='Password'
-        aria-label='Password'
-      />
-
-      <input type='submit' value={submitText} />
+      <div className='mb-3'>
+        <input
+          type='password'
+          ref={passwordRef}
+          className='form-control'
+          placeholder='Password'
+          aria-label='Password'
+        />
+      </div>
+      <div className='d-grid'>
+        <button type='submit' className='btn btn-primary'>
+          {submitText}
+        </button>
+      </div>
     </form>
   )
 }

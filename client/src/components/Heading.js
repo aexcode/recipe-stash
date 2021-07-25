@@ -1,5 +1,5 @@
-export const Heading = ({ size, children }) => {
-  const headingClasses = 'text-center text-md-start mb-3'
+export const Heading = ({ size, children, className }) => {
+  const headingClasses = `text-center mb-4 ${className}`
 
   switch (size) {
     case 1:

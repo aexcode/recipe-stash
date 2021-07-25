@@ -20,7 +20,9 @@ export const Home = () => {
             <div className='col col-lg-1'></div>
             <div className='col-sm-6 col-lg-4'>
               <div className='row mt-4'>
-                <Heading size={1}>Recipe Stash</Heading>
+                <Heading size={1} className='text-md-start'>
+                  Recipe Stash
+                </Heading>
                 <p className='lead'>
                   Quick save recipes from around the web, for easy access when
                   it's time to cook.
