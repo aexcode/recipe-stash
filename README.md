@@ -13,7 +13,7 @@ Recipe Stash is a place for users to to quickly save recipes from around the web
 
 ## Tech:
 
-MongoDB | Express | React | Node | Bootstrap | [Link Preview API](https://www.linkpreview.net/)
+MongoDB | Express | React | Node | JsonWebToken | Bootstrap | [Link Preview API](https://www.linkpreview.net/)
 
 <div align='center'>
   <img src='https://i.imgur.com/g01971x.png' alt='Empty dashboard' />
